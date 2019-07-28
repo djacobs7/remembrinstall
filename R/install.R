@@ -145,3 +145,13 @@ stop_if_not <- function(...) {
 notef <- function(..., quiet = FALSE) {
   if (!quiet) message(sprintf(...))
 }
+
+eof_ok <- function(file) {
+  size <- file.info(file)$size
+  ## On Windows, symbolic links give size = 0
+  if (.Platform$OS.type == "windows" && size == 0L) size <- 1e9
+  bfr <- readBin(file, what = "raw", n = size)
+  n <- length(bfr)
+  if (n == 0L) return(FALSE)
+  is.element(bfr[n], charToRaw("\n\r"))
+}

@@ -141,3 +141,7 @@ stop_if_not <- function(...) {
   }
 }
 
+
+notef <- function(..., quiet = FALSE) {
+  if (!quiet) message(sprintf(...))
+}
